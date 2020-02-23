@@ -3,7 +3,6 @@ import pandas as pd
 Customer = pd.read_table(r"C:\Users\Gebruiker\Desktop\Data\Customers.txt", sep="|")
 Order = pd.read_table(r"C:\Users\Gebruiker\Desktop\Data\Orders.txt", sep="|")
 Order_Details = pd.read_table(r"C:\Users\Gebruiker\Desktop\Data\Order_Details.txt", sep="|")
-Product = pd.read_table(r"C:\Users\Gebruiker\Desktop\Data\Products.txt", sep="|")
 
 missing_value = Customer.isnull().values.any()  # check if any columns is null
 missing_value_details = Customer.isnull().sum() # check sum of missing values
@@ -24,14 +23,10 @@ V = Customer[(Customer['City'] == 'London' ) & (Customer['Address'].str.contains
 
 #print(V)
 Order_w_details = pd.merge(Order,Order_Details, on="OrderID", how="inner")
-Order_w_Cust = pd.merge(Order_w_details,Customer, on="CustomerID", how="inner")
-df = pd.merge(Order_w_Cust,Product, on="ProductID", how="inner")
+df = pd.merge(Order_w_details,Customer, on="CustomerID", how="inner")
 
 print(df.describe())
 #print(df.head(4))
 
 Order.drop
-Order_Details.drop
-Order_w_Cust.drop
-Product.drop
 Customer.drop
