@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
-
+from sklearn.metrics import r2_score
 
 df = pd.read_table(r"C:\Users\Gebruiker\Desktop\Data\boston_house_prices_qc.csv", sep=",")
 df.dropna(how='all') # drop all nan columns
@@ -16,10 +16,10 @@ df.drop(droprows , inplace=True)
 df_x = df
 df_x = df_x.drop(columns = ['MEDV'])
 df_x = df_x.drop(columns = ['GENDER'])
-print(df_x.describe())
+# print(df_x.describe())
 
 df_y = df['MEDV']
-print(df_y)
+#print(df_y)
 
 reg = linear_model.LinearRegression()
 
@@ -29,10 +29,14 @@ reg.fit(x_train,y_train)
 
 # predict
 pred_results = reg.predict(x_test)
-MSE1 = np.mean(pred_results - y_test)**2 # mean square error (MSE) < 1 -> good prediction
-print(pred_results[5])
+# print(pred_results[5])
 
+# model score r squared, R2=1 very close to the reg line
+print(r2_score(y_test, pred_results))  
 
-print(MSE1)
+x_test["pred results"] = pred_results
+x_test["true results"] = y_test
 
-reg.score(x_test, y_test)  # model score
+x_test = x_test.head(4)
+print(x_test)
+
